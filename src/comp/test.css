@@ -1,0 +1,106 @@
+/* comp/test.css または 新しいアニメーション用CSSファイル */
+
+/* .sample の設定は、前回の「画面全体を覆う」定義を継続 */
+.sample {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* 円がはみ出してもスクロールバーを出さない */
+    background-color: #ffe0b2; /* ベースとなる淡いオレンジ色 */
+}
+
+/* アニメーション用の円形要素を複数作成します */
+.sample::before,
+.sample::after,
+.circle-animation-1,
+.circle-animation-2,
+.circle-animation-3 {
+    content: "";
+    position: absolute;
+    border-radius: 50%; /* 円形 */
+    background: linear-gradient(45deg, #ffab91, #ffccbc); /* 暖色系のグラデーション */
+    opacity: 0; /* 最初は非表示 */
+    animation: warm-circle-pulse 15s infinite ease-in-out; /* アニメーション適用 */
+}
+
+/* 各円に異なるサイズ、位置、アニメーション遅延を設定 */
+
+/* 大きめの円1 */
+.sample::before {
+    width: 200vw;
+    height: 200vw;
+    top: -100vw; /* 画面の上部中央からスタート */
+    left: -50vw;
+    animation-delay: 0s;
+    animation-duration: 20s; /* アニメーション速度を調整 */
+}
+
+/* 中くらいの円2 */
+.sample::after {
+    width: 150vw;
+    height: 150vw;
+    top: 50vh; /* 画面中央からスタート */
+    left: 70vw;
+    animation-delay: 5s;
+    animation-duration: 18s;
+    background: linear-gradient(45deg, #ff7043, #ff8a65); /* 別の暖色 */
+}
+
+/* 小さめの円3 (新しい要素として追加) */
+.circle-animation-1 {
+    width: 120vw;
+    height: 120vw;
+    bottom: -60vw; /* 画面の下部中央からスタート */
+    left: -20vw;
+    animation-delay: 10s;
+    animation-duration: 22s;
+    background: linear-gradient(45deg, #ffcc80, #fff3e0); /* 別の暖色 */
+}
+
+/* さらに別の円4 (新しい要素として追加) */
+.circle-animation-2 {
+    width: 180vw;
+    height: 180vw;
+    top: -20vh;
+    right: -40vw;
+    animation-delay: 3s;
+    animation-duration: 17s;
+    background: linear-gradient(45deg, #ff8a65, #ffa726); /* 別の暖色 */
+}
+
+/* さらに別の円5 (新しい要素として追加) */
+.circle-animation-3 {
+    width: 100vw;
+    height: 100vw;
+    bottom: -10vh;
+    left: 40vw;
+    animation-delay: 7s;
+    animation-duration: 25s;
+    background: linear-gradient(45deg, #ffab91, #ffd180); /* 別の暖色 */
+}
+
+/* アニメーションの定義 */
+@keyframes warm-circle-pulse {
+    0% {
+        transform: scale(0.5) translate(0, 0);
+        opacity: 0;
+    }
+    25% {
+        transform: scale(1) translate(0, -20px);
+        opacity: 0.3; /* 最大の透明度 */
+    }
+    50% {
+        transform: scale(1.2) translate(0, 0);
+        opacity: 0.2;
+    }
+    75% {
+        transform: scale(1.1) translate(0, 20px);
+        opacity: 0.1;
+    }
+    100% {
+        transform: scale(0.8) translate(0, 0);
+        opacity: 0;
+    }
+}

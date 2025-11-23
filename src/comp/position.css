@@ -1,0 +1,33 @@
+/* 親コンテナ: 基準点になる */
+.app-container {
+  position: relative; /* 子要素のabsoluteの基準にする */
+  width: 100%;
+  min-height: 100vh; /* 画面いっぱいに広げる */
+  overflow: hidden;  /* アニメーションが画面外にはみ出してもスクロールバーを出さない */
+}
+
+/* レイヤー1: 背景 (奥) */
+.background-layer {
+  position: absolute; /* 親要素に合わせて絶対配置 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* 一番後ろ */
+  
+  /* 重要: 背景のボールなどがクリックの邪魔をしないようにする */
+  pointer-events: none; 
+}
+
+/* レイヤー2: コンテンツ (手前) */
+.content-layer {
+  position: relative; /* z-indexを効かせるため */
+  z-index: 1;         /* 背景より手前に表示 */
+  
+  /* コンテンツを画面中央に配置したい場合の設定 (任意) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}

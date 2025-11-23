@@ -1,8 +1,7 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* 画面全体を使うために、幅の制限を解除 */
+  width: 100%;
+  margin: 0;
 }
 
 .logo {
