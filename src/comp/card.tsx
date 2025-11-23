@@ -16,15 +16,23 @@ function Cardcomp({ shop }: CardProps) {
         // MUIのCardコンポーネントを使用
         <Card 
             sx={{ 
-                maxWidth: 345,
-                boxShadow: 3, // デフォルトの影
-                transition: 'box-shadow 0.3s, transform 0.3s', // 影と移動にアニメーションを適用
+                display: 'flex',
+                flexDirection: 'column',
+                // 1. 幅を固定
+                width: 300, // または maxWidth: 400 で最大幅を設定
+
+                // 2. 高さを固定 (必須)
+                height: 350, // 例: 500pxに固定
+
+                // 3. コンテンツがはみ出た場合の処理 (必須)
+                overflowY: 'auto', // 縦方向にはみ出たらスクロールバーを表示
                 
-                // 💡 ホバー時のスタイル定義
+                boxShadow: 3, 
+                transition: 'box-shadow 0.3s, transform 0.3s',
                 '&:hover': {
-                    boxShadow: 10, // 影を強くする
-                    transform: 'translateY(-2px)', // 上に2px浮き上がらせる
-                    cursor: 'pointer', // カーソルをポインターに変更
+                    boxShadow: 10,
+                    transform: 'translateY(-2px)',
+                    cursor: 'pointer',
                 },
             }}
         >
@@ -46,7 +54,7 @@ function Cardcomp({ shop }: CardProps) {
                     緯度: {shop.place_x}, 経度: {shop.place_y}
                 </Typography>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ marginTop: 'auto' }}>
                 <Button size="small">Share</Button>
                 <Button size="small">Learn More</Button>
             </CardActions>

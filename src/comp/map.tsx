@@ -28,16 +28,29 @@ function OmeletteViewer() {
     const [currentIndex, setCurrentIndex] = useState(0); 
 
     // --- 2. カード切り替えロジック (循環ナビゲーション) ---
-    const navigate = useCallback((direction: 'next' | 'prev') => {
+    const navigate = useCallback((direction: 'next' | 'prev' | 'random') => {
         const total = mapData.length;
         if (total === 0) return;
 
         setCurrentIndex(prevIndex => {
             if (direction === 'next') {
+                // 次へ: 循環ロジック
                 return (prevIndex + 1) % total; 
-            } else {
+            } else if (direction === 'prev') {
+                // 前へ: 循環ロジック
                 return (prevIndex - 1 + total) % total; 
+            } else if (direction === 'random') {
+                // ランダムへ: 既存のインデックスとは異なる値を生成
+                let newIndex;
+                do {
+                    // 0からtotal-1までの整数をランダムに生成
+                    newIndex = Math.floor(Math.random() * total);
+                } while (newIndex === prevIndex && total > 1); // 項目が2つ以上ある場合、現在のインデックスと異なることを保証
+                
+                return newIndex;
             }
+            // 未定義のdirectionが渡された場合は何もしない
+            return prevIndex;
         });
     }, [mapData.length]);
 
@@ -80,10 +93,8 @@ function OmeletteViewer() {
             <h3>({currentIndex + 1} / {mapData.length} 件を表示中)</h3>
 
             <div className="card-carousel">
-                {/* 現在のカード */}
-                <Cardcomp shop={currentShop} />
 
-                <Stack direction="row" spacing={2} sx={{ marginTop: 2, marginBottom: 2 }} justifyContent="center">
+                <Stack direction="row" spacing={2} sx={{ marginTop: 2, marginBottom: 2 }} justifyContent="center" className="card-wrapper">
                     {/* PREVボタン */}
                     <button 
                         onClick={() => navigate('prev')} 
@@ -91,6 +102,9 @@ function OmeletteViewer() {
                     >
                         &lt; 前へ
                     </button>
+
+                    {/* 現在のカード */}
+                    <Cardcomp shop={currentShop} />
                     
                     {/* NEXTボタン */}
                     <button 
@@ -100,11 +114,16 @@ function OmeletteViewer() {
                         次へ &gt;
                     </button>
                 </Stack>
+
+                <Stack direction="row" spacing={10} sx={{ marginTop: 3 }} justifyContent="center">
+                    <button 
+                        onClick={() => navigate('random')} 
+                        className="nav-button random"
+                    >
+                        🎲 ランダム表示
+                    </button>
+                </Stack>
             </div>
-            
-            <p className="debug-info">
-                現在地: {currentShop.name} (Love Level: {currentShop.loveLevel})
-            </p>
         </div>
     );
 }
