@@ -106,9 +106,6 @@ function OmeletteViewer() {
 
     return (
         <div className="viewer-container">
-            <h2>🍳 彦根オムライスマップ (PC版)</h2>
-            <h3>({currentIndex + 1} / {mapData.length} 件を表示中)</h3>
-
             <div className="card-carousel">
 
                 <Stack direction="row" spacing={2} sx={{ marginTop: 2, marginBottom: 2 }} justifyContent="center" className="card-wrapper">
@@ -140,6 +137,9 @@ function OmeletteViewer() {
                         🎲 ランダム表示
                     </button>
                 </Stack>
+                <h3 style={{ textAlign: "center" }}>
+                    ({currentIndex + 1} / {mapData.filter(shop => shop.dummy !== 1).length} 件を表示中)
+                </h3>
             </div>
         </div>
     );

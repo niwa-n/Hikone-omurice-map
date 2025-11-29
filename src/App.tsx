@@ -3,11 +3,14 @@ import './comp/test.css'
 import './comp/position.css'
 
 import OmeletteViewer from './comp/map';
+import Appbar from './comp/appbar';
 
 function App() {
   return (
     <div className="app-container">
-      
+
+    <Appbar />  
+    
       {/* ▼ レイヤー1: 背景アニメーション (奥) */}
       <div className="background-layer">
         {/* ここにCSSアニメーション用の要素を書く */}

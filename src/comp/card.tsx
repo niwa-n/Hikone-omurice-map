@@ -4,7 +4,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import type { mapObjProps } from "./map.tsx"; 
+import type { mapObjProps } from "./map.tsx";
+import Tooltip from "@mui/material/Tooltip"; 
 
 // Propsとして、OmeletteViewerから渡されるshopオブジェクトを受け取る型を定義
 interface CardProps {
@@ -44,9 +45,19 @@ function Cardcomp({ shop }: CardProps) {
                 alt={"napping cat"}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {shop.name}
-                </Typography>
+                <Tooltip title={shop.name}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        cursor: "pointer"
+                        }}
+                    >
+                        {shop.name}
+                    </Typography>
+                </Tooltip>
                 <Typography gutterBottom variant="h5" component="div">
                     ❤ {shop.loveLevel} / 5
                 </Typography>
