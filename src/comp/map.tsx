@@ -13,6 +13,7 @@ interface mapObjProps {
     place_y: number;
     imgPath: string;
     loveLevel: number;
+    dummy: number;
 }
 // ===========================================
 
@@ -25,34 +26,50 @@ function OmeletteViewer() {
     const [loading, setLoading] = useState<boolean>(true);
     
     // カルーセル制御用のState
-    const [currentIndex, setCurrentIndex] = useState(0); 
+    const [normalIndex, setNormalIndex] = useState(0);  // 通常店のインデックス
+    const [currentIndex, setCurrentIndex] = useState(0); // mapData 内の実インデックス
+
 
     // --- 2. カード切り替えロジック (循環ナビゲーション) ---
     const navigate = useCallback((direction: 'next' | 'prev' | 'random') => {
-        const total = mapData.length;
-        if (total === 0) return;
+        const normalShops = mapData.filter(shop => shop.dummy !== 1);
+        const dummyShops = mapData.filter(shop => shop.dummy === 1);
 
-        setCurrentIndex(prevIndex => {
-            if (direction === 'next') {
-                // 次へ: 循環ロジック
-                return (prevIndex + 1) % total; 
-            } else if (direction === 'prev') {
-                // 前へ: 循環ロジック
-                return (prevIndex - 1 + total) % total; 
-            } else if (direction === 'random') {
-                // ランダムへ: 既存のインデックスとは異なる値を生成
-                let newIndex;
-                do {
-                    // 0からtotal-1までの整数をランダムに生成
-                    newIndex = Math.floor(Math.random() * total);
-                } while (newIndex === prevIndex && total > 1); // 項目が2つ以上ある場合、現在のインデックスと異なることを保証
-                
-                return newIndex;
+        if (direction === 'random') {
+            const useDummy = Math.random() < 0.1; // 10% でダミー強制
+
+            let targetShop;
+
+            if (useDummy && dummyShops.length > 0) {
+                // ダミーから必ず１つ
+                targetShop = dummyShops[Math.floor(Math.random() * dummyShops.length)];
+            } else {
+                // 通常店舗からランダム
+                targetShop = normalShops[Math.floor(Math.random() * normalShops.length)];
             }
-            // 未定義のdirectionが渡された場合は何もしない
-            return prevIndex;
-        });
-    }, [mapData.length]);
+
+            // mapData 内のインデックスに変換
+            const realIndex = mapData.indexOf(targetShop);
+            if (realIndex !== -1) setCurrentIndex(realIndex);
+
+            // 通常店インデックスも反映（dummy のときは -1 になるので更新しない）
+            const normIdx = normalShops.indexOf(targetShop);
+            if (normIdx !== -1) setNormalIndex(normIdx);
+
+            return;
+        }
+
+        // next / prev
+        if (direction === 'next') {
+            const nextIdx = (normalIndex + 1) % normalShops.length;
+            setNormalIndex(nextIdx);
+            setCurrentIndex(mapData.indexOf(normalShops[nextIdx]));
+        } else {
+            const prevIdx = (normalIndex - 1 + normalShops.length) % normalShops.length;
+            setNormalIndex(prevIdx);
+            setCurrentIndex(mapData.indexOf(normalShops[prevIdx]));
+        }
+        }, [mapData, normalIndex]);
 
 
     // --- 3. データ読み込みロジック (副作用) ---
@@ -89,9 +106,6 @@ function OmeletteViewer() {
 
     return (
         <div className="viewer-container">
-            <h2>🍳 彦根オムライスマップ (PC版)</h2>
-            <h3>({currentIndex + 1} / {mapData.length} 件を表示中)</h3>
-
             <div className="card-carousel">
 
                 <Stack direction="row" spacing={2} sx={{ marginTop: 2, marginBottom: 2 }} justifyContent="center" className="card-wrapper">
@@ -123,6 +137,9 @@ function OmeletteViewer() {
                         🎲 ランダム表示
                     </button>
                 </Stack>
+                <h3 style={{ textAlign: "center" }}>
+                    ({currentIndex + 1} / {mapData.filter(shop => shop.dummy !== 1).length} 件を表示中)
+                </h3>
             </div>
         </div>
     );
