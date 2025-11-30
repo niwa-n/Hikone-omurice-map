@@ -4,6 +4,9 @@ import './comp/position.css'
 
 import OmeletteViewer from './comp/map';
 import Appbar from './comp/appbar';
+import ComingSoon from './comp/confuse';
+
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -24,7 +27,15 @@ function App() {
 
       {/* ▼ レイヤー2: メインコンテンツ (手前) */}
       <div className="content-layer">
-        <OmeletteViewer />
+        <Routes>
+          {/* メインビュー */}
+          <Route path="/" element={<OmeletteViewer />} />
+
+          {/* データ未整備ページ */}
+          <Route path="/nodata" element={<ComingSoon />} />
+
+          {/* 必要に応じて他ページも追加 */}
+        </Routes>
       </div>
 
     </div>

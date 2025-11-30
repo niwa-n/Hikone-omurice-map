@@ -7,12 +7,16 @@ import Typography from '@mui/material/Typography';
 import type { mapObjProps } from "./map.tsx";
 import Tooltip from "@mui/material/Tooltip"; 
 
+import { useNavigate } from 'react-router-dom';
+
 // Propsとして、OmeletteViewerから渡されるshopオブジェクトを受け取る型を定義
 interface CardProps {
     shop: mapObjProps;
 }
 
 function Cardcomp({ shop }: CardProps) { 
+    const navigate = useNavigate();
+    
     return (
         // MUIのCardコンポーネントを使用
         <Card 
@@ -66,8 +70,8 @@ function Cardcomp({ shop }: CardProps) {
                 </Typography>
             </CardContent>
             <CardActions sx={{ marginTop: 'auto' }}>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+                <Button size="small" onClick={() => navigate("/nodata")}>Share</Button>
+                <Button size="small" onClick={() => navigate("/nodata")}>Learn More</Button>
             </CardActions>
         </Card>
     );
