@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AboutDialog from './aboutDialog';
 
 function Appbar() {
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openAbout, setOpenAbout] = useState(false);
@@ -35,7 +37,8 @@ function Appbar() {
     const handleOpenRepo = () => {
         // 🔗 GitHubリポジトリに飛ばす
         // window.open("https://github.com/YourUserName/YourRepoName", "_blank");
-        window.open("https://www.youtube.com/", "_blank"); // テスト用にYouTubeへ飛ばす
+        // window.open("https://www.youtube.com/", "_blank"); // テスト用にYouTubeへ飛ばす
+        navigate("/nodata")
         handleCloseMenu();
     };
 
