@@ -20,7 +20,7 @@ interface mapObjProps {
 
 function OmeletteViewer() {
     // CSVファイルパス
-    const targetCsvPath = import.meta.env.BASE_URL + "data/map.csv"; 
+    const targetCsvPath = `${import.meta.env.BASE_URL}data/map.csv`; 
     
     const [mapData, setMapData] = useState<mapObjProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
