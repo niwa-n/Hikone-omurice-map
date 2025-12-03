@@ -44,7 +44,7 @@ function Cardcomp({ shop }: CardProps) {
             <CardMedia
                 component="img"
                 sx={{ height: 140 }}
-                image={shop.imgPath}
+                image={`${import.meta.env.BASE_URL}/`+shop.imgPath}
                 title="napping cat"
                 alt={"napping cat"}
             />

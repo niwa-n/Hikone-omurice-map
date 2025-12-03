@@ -13,7 +13,7 @@ function ComingSoon() {
             <p>コンテンツは近日中に実装予定です。</p>
             <p>しばらくお待ちください 🙇‍♂️</p>
             <button 
-                onClick={() => navigate('/')} 
+                onClick={() => navigate(`${import.meta.env.BASE_URL}/`)} 
             >
                 🏠 ホームに戻る
             </button>
