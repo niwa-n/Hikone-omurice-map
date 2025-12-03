@@ -29,7 +29,7 @@ function App() {
       <div className="content-layer">
         <Routes>
           {/* メインビュー */}
-          <Route path="/" element={<OmeletteViewer />} />
+          <Route path={`${import.meta.env.BASE_URL}/`} element={<OmeletteViewer />} />
 
           {/* データ未整備ページ */}
           <Route path="/nodata" element={<ComingSoon />} />

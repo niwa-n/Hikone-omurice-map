@@ -74,6 +74,7 @@ function OmeletteViewer() {
 
     // --- 3. データ読み込みロジック (副作用) ---
     useEffect(() => {
+        console.log("CSVデータを読み込み中:", targetCsvPath);
         papaparse.parse<mapObjProps>(targetCsvPath, {
             download: true,
             header: true,
@@ -82,7 +83,20 @@ function OmeletteViewer() {
                 if (results.errors.length) {
                     console.error("CSVパース中にエラーが発生しました:", results.errors);
                 }
-                setMapData(results.data);
+
+                const data = results.data;
+                setMapData(data);
+                console.log("CSVデータの読み込み完了:", data);
+
+                // ここが重要！
+                // 通常店の最初の index を currentIndex に設定
+                const normalShops = data.filter(shop => shop.dummy !== 1);
+                if (normalShops.length > 0) {
+                    const firstIndex = data.indexOf(normalShops[0]);
+                    setCurrentIndex(firstIndex);
+                    setNormalIndex(0);
+                }
+
                 setLoading(false);
             },
             error: (error) => {
